@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Topical</title>
+    <style>
+      * {
+        vertical-align: top;
+        box-sizing: border-box;
+        margin: unset;
+        padding: unset;
+        border: unset;
+        outline: none;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      #textarea {
+        height: 100px;
+        width: calc(100% - 70px);
+        resize: none;
+      }
+
+      #page {
+        width: 700px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        height: 550px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 1px, rgba(0, 0, 0, 0.09) 0 5px 10px;
+      }
+
+      @media screen and (max-width: 750px) {
+        #page {
+          width: 100%;
+          position: unset;
+          transform: unset;
+          box-shadow: unset;
+          height: 100vh;
+        }
+      }
+
+      #page_inner {
+        overflow: auto;
+        height: calc(100% - 118px);
+      }
+
+      .page_list_item {
+        padding: 13px 15px 9px;
+        list-style-type: none;
+        border-bottom: rgba(0, 0, 0, 0.1) solid 1px;
+      }
+
+      .page_list_item:active {
+        background-color: rgba(241, 244, 246, 0.95);
+      }
+
+      .page_list_item:nth-child(odd) {
+        background-color: #f8fcfff1;
+      }
+
+      .page_list_item:nth-child(odd):active {
+        background-color: rgba(229, 241, 250, 0.95);
+      }
+
+      #footer {
+        padding: 11px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        border-top: rgba(0, 0, 0, 0.1) solid 1px;
+        background-color: white;
+      }
+
+      button {
+        background-color: #9900ff;
+        color: white;
+        border-radius: 100px;
+      }
+
+      button,
+      input,
+      textarea {
+        font-weight: 500;
+        padding: 10px 15px;
+      }
+
+      input,
+      textarea {
+        box-shadow: inset #dcdcdc 0 0 0 1px;
+        width: 210px;
+        border-radius: 7px;
+      }
+
+      button:focus {
+        box-shadow: inset #8400dc 0 0 0 2px, rgba(132, 0, 220, 0.2) 0 0 0 3px;
+      }
+
+      input:hover,
+      textarea:hover {
+        box-shadow: inset #9b9b9b 0 0 0 1px;
+      }
+
+      input:focus,
+      textarea:focus {
+        box-shadow: inset rgb(24, 119, 242) 0 0 0 2px,
+          rgba(24, 119, 242, 0.2) 0 0 0 3px;
+      }
+
+      button:active {
+        background-color: #7f00d5;
+      }
+
+      button:disabled {
+        background-color: transparent;
+        color: #9900ff;
+        box-shadow: inset #9900ff 0 0 0 1px;
+      }
+
+      #header {
+        width: 100%;
+        height: 60px;
+        position: fixed;
+      }
+
+      #back_button {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        background-color: #f5f5f5;
+        text-align: center;
+        color: #767676;
+        display: block;
+        margin: 16px;
+        padding-right: 2px;
+        padding-top: 3px;
+      }
+
+      #back_button:active {
+        background-color: #ececec;
+      }
+
+      #page_content {
+        overflow: auto;
+        height: calc(100% - 49px);
+      }
+
+      .page_list_item b {
+        max-width: calc(100% - 140px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: unset;
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      .new,
+      .hot {
+        background-color: #ff0090;
+        color: white;
+        margin-top: -4px;
+        margin-bottom: -1px;
+        margin-left: 8px;
+        font-size: 0.9rem;
+        padding: 4px 15px 5px;
+        border-radius: 100px;
+        display: inline-block;
+      }
+
+      .hot {
+        background-color: white;
+        color: #1877f2;
+      }
+
+      #ma:active {
+        background-color: #176dda !important;
+      }
+
+      .chatt {
+        margin-top: 5px;
+        padding: 5px 15px;
+        display: inline-block;
+        background-color: #f7f7f7;
+        border-radius: 25px;
+      }
+
+      .date {
+        font-size: 13px;
+        color: gray;
+        margin-left: 10px;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 100px;
+        padding: 5px 10px;
+      }
+
+      #input,
+      #textarea {
+        width: calc(100% - 110px) !important;
+      }
+
+      #textarea {
+        width: calc(100% - 70px) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="page">
+      <header id="header">
+        <h2 style="margin: 14px 16px; color: #1877f2; margin-left: 18px">
+          Topical
+        </h2>
+      </header>
+      <div id="page_content">
+        <div style="margin-top: 60px">
+          <li
+            onclick="changetopic(0)"
+            class="page_list_item"
+            id="ma"
+            style="background-color: #1877f2; color: white"
+          >
+            Dardodel
+            <div class="hot">Featured</div>
+          </li>
+        </div>
+        <ul id="page_inner" style="margin-top: 0px"></ul>
+      </div>
+      <footer id="footer">
+        <button onclick="newtopic()" id="b" disabled>Add a topic</button>
+        <input
+          id="input"
+          oninput="document.getElementById('b').disabled=this.value.length < 10;"
+          onkeyup="if (event.key == 'Enter' && this.value.length > 9){newtopic()}"
+          style="margin-left: 5px"
+          placeholder="Type new topic name here . . ."
+        />
+      </footer>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      let i = 0;
+      var socket = io();
+      var input = document.getElementById("input");
+      window.onload = function () {
+        socket.emit("load", input.value);
+      };
+
+      function newtopic() {
+        if (input.value) {
+          socket.emit("newtopic", input.value);
+          input.value = "";
+        }
+      }
+
+      let jsd = 0;
+      socket.on("newtopic", function (msg) {
+        i++;
+        let item = "";
+        if (msg.split("ÆÅÄÃ")[1] == "L") {
+          item =
+            "<li class='page_list_item " +
+            i +
+            "' onclick='changetopic(" +
+            i +
+            ")'><b></b><span class='date'>" +
+            msg.split("ÆÅÄÃ")[2] +
+            "</span></li>";
+        } else {
+          item =
+            "<li class='page_list_item " +
+            i +
+            "' onclick='changetopic(" +
+            i +
+            ")'><b style='font-weight: 600'></b><div class='new'>New</div></li>";
+        }
+        document.getElementById("page_inner").innerHTML =
+          item + document.getElementById("page_inner").innerHTML;
+        document
+          .getElementsByClassName(i)[0]
+          .getElementsByTagName("b")[0]
+          .append(msg.split("ÆÅÄÃ")[0]);
+        document
+          .getElementById("page_inner")
+          .scrollTo(0, document.body.scrollHeight);
+      });
+
+      function changetopic(i) {
+        jsd = i;
+        socket.emit("loads", jsd);
+        socket.emit("changetopic", i);
+        document.getElementById("page_content").innerHTML =
+          '<div id="page_inner" style="margin-top: 60px;padding: 10px 15px 15px;padding-bottom: 25px"></div>';
+        document.getElementById("header").style.borderBottom =
+          "rgba(0, 0, 0, .1) solid 1px";
+        document.getElementById("header").innerHTML =
+          '<div id="back_button" onclick="location.reload()"><</div><h2 style="margin: 14px 16px;color: #9900ff;margin-left: 58px;display: inline-block;margin-top: -48px">Topical</h2>';
+        document.getElementById("footer").innerHTML =
+          '<button onclick="send()" id="b" disabled>Send</button>\n' +
+          '        <textarea id="textarea" oninput="document.getElementById(\'b\').disabled=this.value.length < 3;"\n' +
+          '               onkeyup="if (event.key == \'Enter\' && this.value.length > 2){send()}" style="margin-left: 5px"\n' +
+          '               placeholder="Type here . . .">';
+      }
+      socket.on("changetopic", function (msg) {
+        document.getElementById("page_inner").innerHTML =
+          '<h2 style="margin-bottom: 5px">' +
+          msg.split("ÆÅÄÃ")[0] +
+          '</h2><div id="chat"></div>';
+      });
+
+      function send() {
+        if (document.getElementById("textarea").value) {
+          socket.emit(jsd, document.getElementById("textarea").value);
+          document.getElementById("textarea").value = "";
+          return false;
+        }
+      }
+
+      socket.on("ms", function (msg) {
+        document.getElementById("chat").innerHTML +=
+          '<p class="chatt">' + msg + "</p><br>";
+      });
+      socket.on("loads", function (msg) {
+        document.getElementById("chat").innerHTML = msg;
+      });
+    </script>
+  </body>
+</html>

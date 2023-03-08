@@ -1,0 +1,13 @@
+{
+  "name": "topical",
+  "version": "0.0.1",
+  "description": "A Real Time Group Chat App",
+  "scripts": {
+    "devStart": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.21",
+    "socket.io": "^4.5.4"
+  }
+}
